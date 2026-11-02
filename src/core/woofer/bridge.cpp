@@ -19,8 +19,8 @@ std::atomic<u32> g_host_flags{0};
 constexpr std::string_view CLEAR_MESSAGE = R"({"t":"clear"})";
 
 std::string_view Trim(std::string_view s) {
-    while (!s.empty() && (s.back() == '\n' || s.back() == '\r' || s.back() == '\0' ||
-                          s.back() == ' ')) {
+    while (!s.empty() &&
+           (s.back() == '\n' || s.back() == '\r' || s.back() == '\0' || s.back() == ' ')) {
         s.remove_suffix(1);
     }
     return s;
@@ -114,8 +114,7 @@ bool HandleDebugString(std::string_view text) {
         return true; // a bridge message we do not understand
     }
     const std::string_view json = text.substr(i + 1);
-    if (json.size() > MAX_MESSAGE || json.size() < 2 || json.front() != '{' ||
-        json.back() != '}') {
+    if (json.size() > MAX_MESSAGE || json.size() < 2 || json.front() != '{' || json.back() != '}') {
         return true;
     }
     const std::string_view type = MessageType(json);

@@ -84,19 +84,19 @@ int SendLine(WooferMsg* m) {
     Woofer_Str(m, "loc", "LITTLEROOT_TOWN");
     Woofer_ArrayBegin(m, "w");
     Woofer_ObjectBegin(m, nullptr);
-    Woofer_Str(m, "s", "\xE4\xBD\xA0\xE5\xA5\xBD");                // 你好
-    Woofer_Str(m, "p", "n\xC7\x90 h\xC7\x8Eo");                      // nǐ hǎo
+    Woofer_Str(m, "s", "\xE4\xBD\xA0\xE5\xA5\xBD"); // 你好
+    Woofer_Str(m, "p", "n\xC7\x90 h\xC7\x8Eo");     // nǐ hǎo
     Woofer_Str(m, "g", "hello");
     Woofer_Int(m, "hsk", 1);
     Woofer_ObjectEnd(m);
     Woofer_ObjectBegin(m, nullptr);
-    Woofer_Str(m, "s", "\xEF\xBC\x8C");                              // ，
+    Woofer_Str(m, "s", "\xEF\xBC\x8C"); // ，
     Woofer_ObjectEnd(m);
     Woofer_ObjectBegin(m, nullptr);
-    Woofer_Str(m, "s", "\xE5\xB0\x8F\xE6\x99\xB4");                // 小晴 (a filled-in name)
+    Woofer_Str(m, "s", "\xE5\xB0\x8F\xE6\x99\xB4"); // 小晴 (a filled-in name)
     Woofer_ObjectEnd(m);
     Woofer_ObjectBegin(m, nullptr);
-    Woofer_Str(m, "s", "\xEF\xBC\x81");                              // ！
+    Woofer_Str(m, "s", "\xEF\xBC\x81"); // ！
     Woofer_ObjectEnd(m);
     Woofer_ArrayEnd(m);
     return Woofer_Send(m);

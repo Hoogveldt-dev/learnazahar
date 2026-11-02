@@ -56,7 +56,8 @@ TEST_CASE("Woofer::HandleDebugString", "[core][woofer]") {
 
     REQUIRE(Woofer::HandleDebugString(R"(WOOF1 {"t":"hello","game":"test-zh"})"));
     // a trailing line break or NUL (C string written with its terminator) is fine
-    REQUIRE(Woofer::HandleDebugString(std::string("WOOF1 {\"t\":\"line\",\"zh\":\"\xE4\xBD\xA0\"}\n")));
+    REQUIRE(
+        Woofer::HandleDebugString(std::string("WOOF1 {\"t\":\"line\",\"zh\":\"\xE4\xBD\xA0\"}\n")));
     REQUIRE(Woofer::HandleDebugString(std::string("WOOF1 {\"t\":\"future-kind\"}\0", 26)));
     REQUIRE(got.types == std::vector<std::string>{"hello", "line", "future-kind"});
     REQUIRE(got.bodies[1] == "{\"t\":\"line\",\"zh\":\"\xE4\xBD\xA0\"}");
