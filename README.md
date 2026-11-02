@@ -1,3 +1,13 @@
+# WooferAzahar
+
+Fork van Azahar met de taalfuncties voor Woofer-games (PokemonWoofer): de
+Woofer-brug, een woordenboekpaneel over het spel, uitspraak, een gedeelde
+woordenlijst en export naar Anki. Zie [docs/woofer/README.md](docs/woofer/README.md)
+en het protocol in [docs/woofer-bridge/PROTOCOL.md](docs/woofer-bridge/PROTOCOL.md).
+Hieronder volgt de oorspronkelijke README van Azahar.
+
+---
+
 ![Azahar Emulator](https://azahar-emu.org/resources/images/logo/azahar-name-and-logo.svg)
 
 ![Current Release](https://img.shields.io/github/v/release/azahar-emu/azahar?label=Current%20Release)
