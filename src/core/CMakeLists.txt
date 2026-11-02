@@ -496,6 +496,10 @@ add_library(citra_core STATIC EXCLUDE_FROM_ALL
     tracer/citrace.h
     tracer/recorder.cpp
     tracer/recorder.h
+    woofer/bridge.cpp
+    woofer/bridge.h
+    woofer/vocab.cpp
+    woofer/vocab.h
 )
 
 if (ENABLE_BUILTIN_KEYBLOB)

@@ -50,6 +50,7 @@
 #include "core/loader/loader.h"
 #include "core/movie.h"
 #include "core/savestate.h"
+#include "core/woofer/bridge.h"
 #ifdef ENABLE_SCRIPTING
 #include "core/rpc/server.h"
 #endif
@@ -772,6 +773,13 @@ void System::Shutdown(bool is_deserializing) {
 
     // Shutdown emulation session
     is_powered_on = false;
+
+    // Woofer bridge: a new boot says hello again; a savestate load keeps the game.
+    if (is_deserializing) {
+        Woofer::OnStateLoaded();
+    } else {
+        Woofer::Reset();
+    }
 
     gpu.reset();
     if (!is_deserializing) {

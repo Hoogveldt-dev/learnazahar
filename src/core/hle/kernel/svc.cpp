@@ -45,6 +45,7 @@
 #include "core/hle/kernel/wait_object.h"
 #include "core/hle/result.h"
 #include "core/hle/service/plgldr/plgldr.h"
+#include "core/woofer/bridge.h"
 
 namespace Kernel {
 
@@ -138,6 +139,11 @@ enum class SystemInfoType {
      * but can be used by homebrew applications to get some emulator info.
      */
     CITRA_INFORMATION = 0x20000,
+    /**
+     * WooferAzahar: handshake of the Woofer bridge ('WOOF'). Param 0 returns the protocol
+     * version, param 1 the host flags. See src/core/woofer/bridge.h.
+     */
+    WOOFER_BRIDGE = 0x574F4F46,
 };
 
 enum class ProcessInfoType {
@@ -1188,6 +1194,8 @@ void SVC::OutputDebugString(VAddr address, s32 len) {
     std::string string(len, ' ');
     memory.ReadBlock(*kernel.GetCurrentProcess(), address, string.data(), len);
     LOG_DEBUG(Debug_Emulated, "{}", string);
+    // Messages of Woofer games for the frontend (docs/woofer-bridge/PROTOCOL.md).
+    Woofer::HandleDebugString(string);
 }
 
 /// Get resource limit
@@ -1934,6 +1942,10 @@ Result SVC::GetSystemInfo(s64* out, u32 type, s32 param) {
             *out = 0;
             break;
         }
+        break;
+    case SystemInfoType::WOOFER_BRIDGE:
+        // Handshake of the Woofer bridge (docs/woofer-bridge/PROTOCOL.md).
+        *out = Woofer::SystemInfo(param);
         break;
     default:
         LOG_ERROR(Kernel_SVC, "unknown GetSystemInfo type={} param={}", type, param);
