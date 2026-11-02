@@ -1,8 +1,10 @@
 name: citra-transifex
 
 on:
-  push:
-    branches: [ master ]
+  # WooferAzahar: upstream Azahar workflow, only started by hand. A push to this
+  # private repository would otherwise run every platform build on paid runners.
+  # The Woofer checks run in woofer.yml.
+  workflow_dispatch:
 
 jobs:
   transifex:

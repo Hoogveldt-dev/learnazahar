@@ -1,0 +1,45 @@
+# WooferAzahar: checks of the Woofer bridge (docs/woofer-bridge/PROTOCOL.md).
+# The upstream Azahar workflows only run when started by hand; this one is small.
+name: woofer
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      apk:
+        description: "Also build the debug APK (arm64-v8a, takes about an hour)"
+        type: boolean
+        default: false
+
+jobs:
+  bridge-tests:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: recursive
+      - name: Install Ninja
+        run: sudo apt-get update && sudo apt-get install -y ninja-build
+      - name: Woofer tests (bridge, end to end with the game side of PokemonWoofer)
+        run: tools/woofer/test.sh
+
+  debug-apk:
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.apk }}
+    needs: bridge-tests
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: recursive
+          fetch-depth: 0
+      - name: Android NDK and CMake
+        run: |
+          yes | "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null
+          "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" "ndk;27.3.13750724" "cmake;3.31.6"
+      - name: Build
+        run: JAVA_HOME=$JAVA_HOME_17_X64 ANDROID_HOME=$ANDROID_SDK_ROOT tools/woofer/build_apk.sh woofer-azahar-debug.apk
+      - uses: actions/upload-artifact@v7
+        with:
+          name: woofer-azahar-debug
+          path: dist/woofer-azahar-debug.apk
