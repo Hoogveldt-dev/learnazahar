@@ -66,6 +66,12 @@
             android:label="@string/preferences_settings"/>
 
         <activity
+            android:name="org.citra.citra_emu.woofer.WooferVocabActivity"
+            android:exported="false"
+            android:label="@string/woofer_words"
+            android:theme="@style/Theme.Citra.Main" />
+
+        <activity
             android:name="org.citra.citra_emu.activities.EmulationActivity"
             android:exported="true"
             android:theme="@style/Theme.Citra.Main"

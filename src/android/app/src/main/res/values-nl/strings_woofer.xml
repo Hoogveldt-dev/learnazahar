@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- WooferAzahar: woordenboekpaneel en woordenlijst van Woofer-games. -->
+<resources>
+    <string name="woofer_words">Woofer-woorden</string>
+    <string name="woofer_words_description">Woorden die je in Woofer-games bewaarde: oefenen, zoeken en naar Anki exporteren</string>
+    <string name="woofer_words_short">Woorden</string>
+    <string name="woofer_panel_title_default">Woofer</string>
+    <string name="woofer_panel_show">Woofer-woordenboek tonen</string>
+    <string name="woofer_panel_hide">Woofer-woordenboek verbergen</string>
+    <string name="woofer_panel_waiting">Woorden verschijnen hier zodra de game tekst toont.</string>
+    <string name="woofer_tap_a_word">Tik op een woord.</string>
+    <string name="woofer_fold">Inklappen</string>
+    <string name="woofer_unfold">Uitklappen</string>
+    <string name="woofer_speak_word">▶ Woord</string>
+    <string name="woofer_speak_line">▶ Zin</string>
+    <string name="woofer_save">Bewaren</string>
+    <string name="woofer_saved">Bewaard</string>
+    <string name="woofer_pinyin">Pinyin</string>
+    <string name="woofer_english">EN</string>
+    <string name="woofer_save_failed">Kon de woordenlijst niet schrijven (sdmc/woofer/vocab.jsonl).</string>
+    <string name="woofer_no_voice">Er is geen stem voor deze taal geïnstalleerd. Voeg er een toe in de instellingen voor tekst-naar-spraak van Android.</string>
+    <string name="woofer_search">Zoek tekens, pinyin of betekenis</string>
+    <string name="woofer_filter_all">Alle</string>
+    <string name="woofer_status_new">Nieuw</string>
+    <string name="woofer_status_learning">Bezig</string>
+    <string name="woofer_status_known">Bekend</string>
+    <string name="woofer_delete">Verwijderen</string>
+    <string name="woofer_deleted">Woord verwijderd</string>
+    <string name="woofer_undo">Ongedaan maken</string>
+    <string name="woofer_words_empty">Nog geen woorden. Bewaar woorden in een Woofer-game, dan verschijnen ze hier.</string>
+    <string name="woofer_words_no_match">Geen woorden gevonden.</string>
+    <string name="woofer_export_anki">Exporteren voor Anki</string>
+    <string name="woofer_export_failed">Exporteren mislukt.</string>
+    <plurals name="woofer_word_count">
+        <item quantity="one">%d woord</item>
+        <item quantity="other">%d woorden</item>
+    </plurals>
+    <plurals name="woofer_exported">
+        <item quantity="one">%d woord geëxporteerd</item>
+        <item quantity="other">%d woorden geëxporteerd</item>
+    </plurals>
+</resources>

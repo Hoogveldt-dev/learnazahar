@@ -21,7 +21,13 @@ plugins {
  * next 680 years.
  */
 val autoVersion = (((System.currentTimeMillis() / 1000) - 1451606400) / 10).toInt()
-val abiFilter = listOf("arm64-v8a", "x86_64")
+// WooferAzahar: -PabiFilters=arm64-v8a builds one ABI only (quicker test builds).
+val abiFilter = (project.findProperty("abiFilters") as String?)
+    ?.split(",")?.map { it.trim() }?.filter { it.isNotEmpty() }
+    ?: listOf("arm64-v8a", "x86_64")
+
+/** Version of the Woofer additions (bridge, panel, word list), shown in the version name. */
+val wooferVersion = "1.0"
 
 val downloadedJniLibsPath = "${layout.buildDirectory.get().asFile.path}/downloadedJniLibs"
 
@@ -61,13 +67,13 @@ android {
     }
 
     defaultConfig {
-        // The application ID refers to Lime3DS to allow for
-        // the Play Store listing, which was originally set up for Lime3DS, to still be used.
-        applicationId = "org.azahar_emu.azahar"
+        // WooferAzahar has its own id (Azahar's is org.azahar_emu.azahar), so it installs
+        // next to Azahar.
+        applicationId = "dev.woofer.azahar"
         minSdk = 29
         targetSdk = 37
         versionCode = autoVersion
-        versionName = getGitVersion()
+        versionName = getGitVersion() + "-woofer" + wooferVersion
 
         ndk {
             //noinspection ChromeOsAbiSupport
@@ -166,6 +172,16 @@ android {
             versionNameSuffix = "-debug"
             isDebuggable = true
             isJniDebuggable = true
+            // WooferAzahar: the debug APK is the test build, so its native code is optimised
+            // (a Debug build of the emulator is too slow to play). -PnativeDebug gives the
+            // unoptimised native build back.
+            if (!project.hasProperty("nativeDebug")) {
+                externalNativeBuild {
+                    cmake {
+                        arguments("-DCMAKE_BUILD_TYPE=Release", "-DENABLE_LTO=OFF")
+                    }
+                }
+            }
         }
     }
 

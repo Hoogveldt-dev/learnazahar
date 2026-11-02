@@ -68,6 +68,7 @@
 #include "jni/id_cache.h"
 #include "jni/input_manager.h"
 #include "jni/ndk_motion.h"
+#include "jni/woofer.h"
 #include "multiplayer.h"
 #include "video_core/debug_utils/debug_utils.h"
 #include "video_core/gpu.h"
@@ -181,6 +182,7 @@ static void TryShutdown() {
 
     system.Shutdown();
     system.EjectCartridge();
+    WooferJni::Detach();
 
     window.reset();
     if (secondary_window) {
@@ -320,6 +322,9 @@ static Core::System::ResultStatus RunCitra(const std::string& filepath) {
     }
 
     InputManager::Init();
+
+    // Messages of Woofer games go to org.citra.citra_emu.woofer.WooferBridge.
+    WooferJni::Attach();
 
     window->MakeCurrent();
 

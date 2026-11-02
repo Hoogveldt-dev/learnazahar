@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- WooferAzahar: dictionary panel and word list of Woofer games (docs/woofer-bridge/PROTOCOL.md). -->
+<resources>
+    <string name="woofer_words">Woofer words</string>
+    <string name="woofer_words_description">Words you saved in Woofer games: practise, search and export to Anki</string>
+    <string name="woofer_words_short">Words</string>
+    <string name="woofer_panel_title_default">Woofer</string>
+    <string name="woofer_panel_show">Show Woofer dictionary</string>
+    <string name="woofer_panel_hide">Hide Woofer dictionary</string>
+    <string name="woofer_panel_waiting">Words appear here as soon as the game shows text.</string>
+    <string name="woofer_tap_a_word">Tap a word.</string>
+    <string name="woofer_fold">Fold</string>
+    <string name="woofer_unfold">Unfold</string>
+    <string name="woofer_speak_word">▶ Word</string>
+    <string name="woofer_speak_line">▶ Line</string>
+    <string name="woofer_save">Save</string>
+    <string name="woofer_saved">Saved</string>
+    <string name="woofer_pinyin">Pinyin</string>
+    <string name="woofer_english">EN</string>
+    <string name="woofer_save_failed">Could not write the word list (sdmc/woofer/vocab.jsonl).</string>
+    <string name="woofer_no_voice">No voice for this language is installed. Add one in Android\'s text-to-speech settings.</string>
+    <string name="woofer_search">Search characters, pinyin or meaning</string>
+    <string name="woofer_filter_all">All</string>
+    <string name="woofer_status_new">New</string>
+    <string name="woofer_status_learning">Learning</string>
+    <string name="woofer_status_known">Known</string>
+    <string name="woofer_delete">Delete</string>
+    <string name="woofer_deleted">Word deleted</string>
+    <string name="woofer_undo">Undo</string>
+    <string name="woofer_words_empty">No words yet. Save words in a Woofer game, then they show up here.</string>
+    <string name="woofer_words_no_match">No words match.</string>
+    <string name="woofer_export_anki">Export for Anki</string>
+    <string name="woofer_export_failed">Export failed.</string>
+    <plurals name="woofer_word_count">
+        <item quantity="one">%d word</item>
+        <item quantity="other">%d words</item>
+    </plurals>
+    <plurals name="woofer_exported">
+        <item quantity="one">%d word exported</item>
+        <item quantity="other">%d words exported</item>
+    </plurals>
+</resources>

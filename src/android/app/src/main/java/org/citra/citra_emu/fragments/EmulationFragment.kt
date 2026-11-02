@@ -85,6 +85,7 @@ import org.citra.citra_emu.utils.GameIconUtils
 import org.citra.citra_emu.utils.Log
 import org.citra.citra_emu.utils.ViewUtils
 import org.citra.citra_emu.viewmodel.EmulationViewModel
+import org.citra.citra_emu.woofer.WooferEmulationUi
 
 class EmulationFragment :
     Fragment(),
@@ -111,6 +112,7 @@ class EmulationFragment :
     private val settingsViewModel: SettingsViewModel by viewModels()
     private val settings get() = settingsViewModel.settings
 
+    private val wooferUi = WooferEmulationUi()
     private val onPause = Runnable { togglePause() }
     private val onShutdown = Runnable { emulationState.stop() }
 
@@ -197,6 +199,9 @@ class EmulationFragment :
         // So this fragment doesn't restart on configuration changes; i.e. rotation.
         retainInstance = true
         emulationState = EmulationState(game.path)
+        if (savedInstanceState == null) {
+            WooferEmulationUi.onEmulationStarting()
+        }
         screenAdjustmentUtil =
             ScreenAdjustmentUtil(requireContext(), requireActivity().windowManager, settings)
         EmulationLifecycleUtil.addPauseResumeHook(onPause)
@@ -229,6 +234,7 @@ class EmulationFragment :
         }
 
         binding.surfaceEmulation.holder.addCallback(this)
+        wooferUi.attach(binding.coordinatorLayout, binding.inGameMenu.menu)
         binding.doneControlConfig.setOnClickListener {
             binding.doneControlConfig.visibility = View.GONE
             binding.surfaceInputOverlay.setIsInEditMode(false)
@@ -305,6 +311,9 @@ class EmulationFragment :
         }
 
         binding.inGameMenu.setNavigationItemSelectedListener {
+            if (wooferUi.onMenuItemSelected(it)) {
+                return@setNavigationItemSelectedListener true
+            }
             when (it.itemId) {
                 R.id.menu_emulation_pause -> {
                     if (emulationState.isPaused) {
@@ -568,9 +577,15 @@ class EmulationFragment :
         super.onDetach()
     }
 
+    override fun onDestroyView() {
+        wooferUi.detach()
+        super.onDestroyView()
+    }
+
     override fun onDestroy() {
         if (::emulationState.isInitialized && requireActivity().isFinishing) {
             emulationState.stop()
+            WooferEmulationUi.onEmulationFinished()
         }
         EmulationLifecycleUtil.removeHook(onPause)
         EmulationLifecycleUtil.removeHook(onShutdown)

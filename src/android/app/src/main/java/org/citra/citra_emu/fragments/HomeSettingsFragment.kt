@@ -45,6 +45,7 @@ import org.citra.citra_emu.utils.Log
 import org.citra.citra_emu.utils.PermissionsHandler
 import org.citra.citra_emu.viewmodel.DriverViewModel
 import org.citra.citra_emu.viewmodel.HomeViewModel
+import org.citra.citra_emu.woofer.WooferVocabActivity
 
 class HomeSettingsFragment : Fragment() {
     private var _binding: FragmentHomeSettingsBinding? = null
@@ -125,6 +126,16 @@ class HomeSettingsFragment : Fragment() {
                             .setNegativeButton(android.R.string.cancel) { _, _ -> }
                             .show()
                     }
+                }
+            ),
+            HomeSetting(
+                R.string.woofer_words,
+                R.string.woofer_words_description,
+                R.drawable.ic_woofer_words,
+                {
+                    startActivity(
+                        Intent(requireContext(), WooferVocabActivity::class.java)
+                    )
                 }
             ),
             HomeSetting(

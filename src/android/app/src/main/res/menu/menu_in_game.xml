@@ -12,6 +12,13 @@
         android:title="@string/savestates"
         android:visible="false" />
 
+    <!-- WooferAzahar: shown once a Woofer game said hello -->
+    <item
+        android:id="@+id/menu_woofer_panel"
+        android:icon="@drawable/ic_woofer_words"
+        android:title="@string/woofer_panel_hide"
+        android:visible="false" />
+
     <item
         android:id="@+id/menu_overlay_options"
         android:icon="@drawable/ic_controller"

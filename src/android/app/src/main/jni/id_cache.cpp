@@ -13,6 +13,7 @@
 #include "jni/applets/swkbd.h"
 #include "jni/camera/still_image_camera.h"
 #include "jni/id_cache.h"
+#include "jni/woofer.h"
 #include "multiplayer.h"
 
 #include <jni.h>
@@ -275,6 +276,7 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
     SoftwareKeyboard::InitJNI(env);
     Camera::StillImage::InitJNI(env);
     AndroidUtils::InitJNI(env, s_native_library_class);
+    WooferJni::InitJNI(env);
 
     return JNI_VERSION;
 }
@@ -289,6 +291,7 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
     env->DeleteGlobalRef(s_core_error_class);
     env->DeleteGlobalRef(s_disk_cache_progress_class);
     env->DeleteGlobalRef(s_native_library_class);
+    WooferJni::CleanupJNI(env);
     env->DeleteGlobalRef(s_cheat_class);
     env->DeleteGlobalRef(s_cia_install_helper_class);
 
