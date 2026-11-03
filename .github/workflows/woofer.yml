@@ -24,9 +24,17 @@ jobs:
       - name: Woofer tests (bridge, end to end with the game side of PokemonWoofer)
         run: tools/woofer/test.sh
 
+  app-checks:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - name: JVM tests of the word list and ktlint
+        working-directory: src/android
+        run: JAVA_HOME=$JAVA_HOME_17_X64 ./gradlew testVanillaDebugUnitTest ktlintCheck
+
   debug-apk:
     if: ${{ github.event_name == 'workflow_dispatch' && inputs.apk }}
-    needs: bridge-tests
+    needs: [bridge-tests, app-checks]
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v6
