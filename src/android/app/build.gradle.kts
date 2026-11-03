@@ -73,8 +73,9 @@ android {
     }
 
     defaultConfig {
-        // WooferAzahar has its own id (Azahar's is org.azahar_emu.azahar), so it installs
-        // next to Azahar.
+        // WooferAzahar is a standalone app. It needs an id of its own (Azahar's is
+        // org.azahar_emu.azahar) because Android treats two apps with the same id as
+        // the same app, which would make the two exclude each other.
         applicationId = "dev.woofer.azahar"
         minSdk = 29
         targetSdk = 37
@@ -178,6 +179,12 @@ android {
             versionNameSuffix = "-debug"
             isDebuggable = true
             isJniDebuggable = true
+            // WooferAzahar: with ANDROID_KEYSTORE_FILE the debug APK is signed with that
+            // key as well, so an APK built on another machine still installs over an
+            // earlier one. Without it the local debug key is used, as before.
+            if (keystoreFile != null) {
+                signingConfig = signingConfigs.getByName("release")
+            }
             // WooferAzahar: the debug APK is the test build, so its native code is optimised
             // (a Debug build of the emulator is too slow to play). -PnativeDebug gives the
             // unoptimised native build back.

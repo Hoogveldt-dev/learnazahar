@@ -7,7 +7,11 @@ woordenlijst en export naar Anki. Het protocol is ongewijzigd
 (`docs/woofer-bridge/PROTOCOL.md`, gelijk aan PokemonWoofer en WooferCitra),
 dus PokemonWoofer werkt zonder aanpassingen.
 
-Revisie: 2026-11-02.
+Het is een **volledige, zelfstandige emulator**: de APK bevat alles en heeft
+Azahar niet nodig, niet om te installeren en niet om te spelen. Fork betekent
+hier alleen dat de broncode van Azahar de basis is.
+
+Revisie: 2026-11-03.
 
 ## Wat zit waar
 
@@ -46,7 +50,11 @@ samenvoegen meestal zonder conflicten.
   bij in plaats van ze dubbel toe te voegen) en tags `woofer <game> <status>`.
 - **Uitspraak:** als Android geen Chinese stem heeft, zegt de app dat één keer.
 - **Eigen app-id** `dev.woofer.azahar` (debug: `dev.woofer.azahar.debug`) en
-  naam "WooferAzahar": installeert naast Azahar.
+  naam "WooferAzahar". Nodig omdat twee apps met hetzelfde id elkaar op
+  Android uitsluiten; zo kan WooferAzahar erop staan terwijl Azahar of
+  WooferCitra er ook staat. Elke app heeft dan zijn eigen gebruikersmap,
+  instellingen, `sdmc` en dus zijn eigen `vocab.jsonl`; er wordt niets
+  gedeeld.
 
 Vervallen (goedgekeurd): geheugen bewerken, combo-toetsen en knoppenthema's
 van de oude WooferCitra-app.
@@ -105,8 +113,21 @@ tools/woofer/build_apk.sh woofer-azahar-debug.apk   # komt in build/apk/
 - De debug-APK heeft **geoptimaliseerde native code** (`Release`, zonder LTO):
   een Debug-build van de emulator is te traag om te spelen. Kotlin blijft
   debugbaar. `-PnativeDebug` geeft de trage Debug-build terug.
-- Ondertekend met de eigen debug-sleutel van de bouwmachine. Een nieuwere APK
-  van een andere machine moet je daarom eerst de oude laten verwijderen.
+- Ondertekend met de eigen debug-sleutel van de bouwmachine. Een APK van een
+  andere machine heeft een andere sleutel; Android weigert dan de update en je
+  moet de oude app eerst verwijderen (en verliest daarmee de gebruikersmap als
+  die in de app-map staat). Wil je dat voorkomen, maak dan eenmalig een eigen
+  sleutel en geef hem bij elke bouw mee:
+
+  ```sh
+  keytool -genkeypair -v -keystore woofer.jks -alias woofer       -keyalg RSA -keysize 4096 -validity 10000
+  export ANDROID_KEYSTORE_FILE=/pad/naar/woofer.jks
+  export ANDROID_KEYSTORE_PASS=...   # ook het wachtwoord van de sleutel zelf
+  export ANDROID_KEY_ALIAS=woofer
+  ```
+
+  Dan worden zowel de debug- als de release-APK met die sleutel ondertekend
+  (de sleutel zelf hoort niet in de repo).
 
 Lessen uit de cloudomgeving: Maven Central en de Gradle-pluginportal geven
 daar vaak 429. Een Gradle-init-script in `~/.gradle/init.d/` dat Google's Maven

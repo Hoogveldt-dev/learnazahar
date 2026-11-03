@@ -1,9 +1,13 @@
 # WooferAzahar
 
-Fork van Azahar met de taalfuncties voor Woofer-games (PokemonWoofer): de
-Woofer-brug, een woordenboekpaneel over het spel, uitspraak, een gedeelde
-woordenlijst en export naar Anki. Zie [docs/woofer/README.md](docs/woofer/README.md)
-en het protocol in [docs/woofer-bridge/PROTOCOL.md](docs/woofer-bridge/PROTOCOL.md).
+Een zelfstandige 3DS-emulator voor Android met de taalfuncties voor
+Woofer-games (PokemonWoofer): de Woofer-brug, een woordenboekpaneel over het
+spel, uitspraak, een gedeelde woordenlijst en export naar Anki. De app bevat
+de hele emulator en heeft Azahar niet nodig; de broncode van Azahar is de
+basis.
+
+Zie [docs/woofer/README.md](docs/woofer/README.md) en het protocol in
+[docs/woofer-bridge/PROTOCOL.md](docs/woofer-bridge/PROTOCOL.md).
 Hieronder volgt de oorspronkelijke README van Azahar.
 
 ---
