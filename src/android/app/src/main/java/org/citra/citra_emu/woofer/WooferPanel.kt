@@ -131,15 +131,15 @@ class WooferPanel(context: Context) :
 
         actions = LinearLayout(context)
         actions.setPadding(0, dp(6), 0, 0)
-        val speakWord = pill(context.getString(R.string.woofer_speak_word))
+        val speakWord = pill(R.string.woofer_speak_word, R.string.woofer_speak_word_description)
         speakWord.setOnClickListener { speak(selectedWord(), "s") }
-        val speakLine = pill(context.getString(R.string.woofer_speak_line))
+        val speakLine = pill(R.string.woofer_speak_line, R.string.woofer_speak_line_description)
         speakLine.setOnClickListener { speak(line, "zh") }
-        save = pill(context.getString(R.string.woofer_save))
+        save = pill(R.string.woofer_save, R.string.woofer_save_description)
         save.setOnClickListener { saveSelected() }
-        pinyinButton = pill(context.getString(R.string.woofer_pinyin))
+        pinyinButton = pill(R.string.woofer_pinyin, R.string.woofer_pinyin_description)
         pinyinButton.setOnClickListener { setShowPinyin(!showPinyin) }
-        englishButton = pill(context.getString(R.string.woofer_english))
+        englishButton = pill(R.string.woofer_english, R.string.woofer_english_description)
         englishButton.setOnClickListener { setShowEnglish(english.visibility != VISIBLE) }
         val buttons = listOf(speakWord, speakLine, save, pinyinButton, englishButton)
         for ((i, b) in buttons.withIndex()) {
@@ -522,6 +522,12 @@ class WooferPanel(context: Context) :
     }
 
     /** A small button that looks the same in every theme. */
+    private fun pill(label: Int, description: Int): TextView {
+        val b = pill(context.getString(label))
+        b.contentDescription = context.getString(description)
+        return b
+    }
+
     private fun pill(label: String): TextView {
         val b = text(13f, FG)
         b.text = label
