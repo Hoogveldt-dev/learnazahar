@@ -60,6 +60,12 @@ android {
         buildConfig = true
     }
 
+    testOptions {
+        // WooferAzahar: JVM tests of the word list (src/test); Android classes they touch
+        // only in passing (Handler, Looper) return defaults there.
+        unitTests.isReturnDefaultValues = true
+    }
+
     lint {
         // This is important as it will run lint but not abort on error
         // Lint has some overly obnoxious "errors" that should really be warnings
@@ -234,6 +240,10 @@ dependencies {
     implementation("io.coil-kt:coil:2.7.0")
     implementation("org.ini4j:ini4j:0.5.4")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.2")
+
+    // WooferAzahar: JVM tests (src/test); org.json is part of Android but not of the JVM.
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.json:json:20240303")
 }
 
 // Download Vulkan Validation Layers from the KhronosGroup GitHub.

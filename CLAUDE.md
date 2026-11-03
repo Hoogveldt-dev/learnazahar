@@ -13,9 +13,10 @@
   kopie van PokemonWoofer `port/woofer_bridge.{c,h}`; bijwerken met
   `tools/woofer/check_game_bridge.sh <PokemonWoofer> --update`.
 * Testen: `tools/woofer/test.sh` (snel) en `tools/woofer/test.sh --full`.
-  Beide moeten slagen voor een commit aan de brug.
+  Beide moeten slagen voor een commit aan de brug. Voor de app:
+  `./gradlew testVanillaDebugUnitTest ktlintCheck` in `src/android`.
 * APK: `tools/woofer/build_apk.sh` (arm64-v8a, debug-sleutel, native code
-  geoptimaliseerd). Nooit APK's, ROM's of spelbestanden committen; `dist/` en
-  `build*/` staan in `.gitignore`.
+  geoptimaliseerd), uitvoer in `build/apk/`. Nooit APK's, ROM's of
+  spelbestanden committen. Let op: `dist/` is een bronmap van Azahar zelf.
 * Azahar's eigen GitHub-workflows staan op handmatig starten (kosten in een
   privérepo); `woofer.yml` draait de snelle tests.

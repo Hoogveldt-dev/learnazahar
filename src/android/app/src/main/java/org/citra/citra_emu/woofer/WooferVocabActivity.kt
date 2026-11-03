@@ -163,7 +163,11 @@ class WooferVocabActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val ok = withContext(Dispatchers.IO) { WooferBridge.setStatus(entry, status) }
             if (!ok) {
-                Toast.makeText(this@WooferVocabActivity, R.string.woofer_save_failed, Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@WooferVocabActivity,
+                    R.string.woofer_save_failed,
+                    Toast.LENGTH_SHORT
+                ).show()
                 return@launch
             }
             reload()
@@ -207,8 +211,13 @@ class WooferVocabActivity : AppCompatActivity() {
     private inner class WordAdapter : RecyclerView.Adapter<WordAdapter.Holder>() {
         inner class Holder(val item: ListItemWooferWordBinding) : RecyclerView.ViewHolder(item.root)
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder =
-            Holder(ListItemWooferWordBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder = Holder(
+            ListItemWooferWordBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
 
         override fun getItemCount(): Int = shown.size
 
@@ -218,7 +227,8 @@ class WooferVocabActivity : AppCompatActivity() {
             item.textCharacters.text = e.optString("s")
             item.textPinyin.text = e.optString("p")
             item.textMeaning.text = e.optString("g")
-            item.textMeaning.visibility = if (e.optString("g").isEmpty()) View.GONE else View.VISIBLE
+            item.textMeaning.visibility =
+                if (e.optString("g").isEmpty()) View.GONE else View.VISIBLE
             item.textStatus.text = statusLabel(e.optString("status", "new"))
             val sentence = e.optString("zh")
             val source = listOf(e.optString("loc"), e.optString("game")).filter { it.isNotEmpty() }
@@ -260,7 +270,9 @@ class WooferVocabActivity : AppCompatActivity() {
             val sb = StringBuilder()
             sb.append("#separator:tab\n")
             sb.append("#html:false\n")
-            sb.append("#columns:Id\tCharacters\tPinyin\tMeaning\tSentence\tEnglish\tPlace\tGame\tStatus\tHSK\tTags\n")
+            sb.append(
+                "#columns:Id\tCharacters\tPinyin\tMeaning\tSentence\tEnglish\tPlace\tGame\tStatus\tHSK\tTags\n"
+            )
             sb.append("#guid column:1\n")
             sb.append("#tags column:11\n")
             for (e in entries) {

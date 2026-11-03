@@ -68,6 +68,15 @@ aan de emulatorkant: `gWooferSystemInfo` doet wat `SVC::GetSystemInfo` doet en
 andere emulator (dan stuurt de game niets), savestates, en dat game en
 emulator samen `vocab.jsonl` delen.
 
+De logica van de app zonder telefoon (inlezen van `vocab.jsonl`, de
+Anki-export, zoeken zonder toontekens, de taal voor uitspraak) staat in
+JVM-tests, samen met de stijlcontrole van Azahar:
+
+```sh
+cd src/android
+./gradlew testVanillaDebugUnitTest ktlintCheck
+```
+
 Na een wijziging aan de brug in PokemonWoofer:
 
 ```sh
@@ -87,7 +96,7 @@ Nodig: JDK 17 of nieuwer, Android SDK met `platforms;android-35`,
 
 ```sh
 export ANDROID_HOME=/pad/naar/android-sdk
-tools/woofer/build_apk.sh woofer-azahar-debug.apk   # komt in dist/
+tools/woofer/build_apk.sh woofer-azahar-debug.apk   # komt in build/apk/
 ```
 
 - Standaard alleen `arm64-v8a` (elke recente telefoon). Andere ABI's:

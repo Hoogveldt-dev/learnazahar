@@ -42,4 +42,4 @@ jobs:
       - uses: actions/upload-artifact@v7
         with:
           name: woofer-azahar-debug
-          path: dist/woofer-azahar-debug.apk
+          path: build/apk/woofer-azahar-debug.apk

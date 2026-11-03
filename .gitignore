@@ -64,5 +64,3 @@ GIT-TAG
 
 # verify-release.sh downloads
 verify/
-# WooferAzahar: built APKs (tools/woofer/build_apk.sh)
-dist/

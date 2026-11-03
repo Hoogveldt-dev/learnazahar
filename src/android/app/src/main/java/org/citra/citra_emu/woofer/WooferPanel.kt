@@ -43,7 +43,9 @@ import org.json.JSONObject
  * its title bar.
  */
 @SuppressLint("ViewConstructor")
-class WooferPanel(context: Context) : LinearLayout(context), WooferBridge.Listener {
+class WooferPanel(context: Context) :
+    LinearLayout(context),
+    WooferBridge.Listener {
     private val prefs = PreferenceManager.getDefaultSharedPreferences(context)
 
     private val title: TextView
@@ -139,7 +141,8 @@ class WooferPanel(context: Context) : LinearLayout(context), WooferBridge.Listen
         pinyinButton.setOnClickListener { setShowPinyin(!showPinyin) }
         englishButton = pill(context.getString(R.string.woofer_english))
         englishButton.setOnClickListener { setShowEnglish(english.visibility != VISIBLE) }
-        for ((i, b) in listOf(speakWord, speakLine, save, pinyinButton, englishButton).withIndex()) {
+        val buttons = listOf(speakWord, speakLine, save, pinyinButton, englishButton)
+        for ((i, b) in buttons.withIndex()) {
             val lp = LayoutParams(0, LayoutParams.WRAP_CONTENT, 1f)
             if (i > 0) {
                 lp.marginStart = dp(4)
@@ -185,8 +188,11 @@ class WooferPanel(context: Context) : LinearLayout(context), WooferBridge.Listen
     override fun onWooferMessage(type: String, message: JSONObject) {
         when (type) {
             "hello" -> onHello(message)
+
             "line" -> showLine(message)
+
             "clear" -> showLine(null)
+
             "saved" -> {
                 saved.add(WooferBridge.key(message))
                 updateDetail()
@@ -431,6 +437,7 @@ class WooferPanel(context: Context) : LinearLayout(context), WooferBridge.Listen
                     startY = y
                     dragging = false
                 }
+
                 MotionEvent.ACTION_MOVE -> {
                     val dx = event.rawX - downX
                     val dy = event.rawY - downY
@@ -442,6 +449,7 @@ class WooferPanel(context: Context) : LinearLayout(context), WooferBridge.Listen
                         y = clamp(startY + dy, maxY())
                     }
                 }
+
                 MotionEvent.ACTION_UP -> {
                     if (dragging) {
                         savePosition()
@@ -450,6 +458,7 @@ class WooferPanel(context: Context) : LinearLayout(context), WooferBridge.Listen
                         setCollapsed(!collapsed) // a tap on the title folds the panel
                     }
                 }
+
                 MotionEvent.ACTION_CANCEL -> dragging = false
             }
             true
@@ -491,12 +500,11 @@ class WooferPanel(context: Context) : LinearLayout(context), WooferBridge.Listen
     // Views
     // ------------------------------------------------------------------
 
-    private fun dp(value: Int): Int =
-        TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            value.toFloat(),
-            resources.displayMetrics
-        ).toInt()
+    private fun dp(value: Int): Int = TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP,
+        value.toFloat(),
+        resources.displayMetrics
+    ).toInt()
 
     private fun rounded(colour: Int, radius: Float): GradientDrawable {
         val d = GradientDrawable()

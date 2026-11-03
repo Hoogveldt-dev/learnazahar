@@ -49,6 +49,7 @@ class WrapLayout(context: Context, private val gap: Int) : ViewGroup(context) {
         var y = 0
         var lineHeight = 0
         var lineStart = 0
+
         // Children of one line are bottom-aligned, so words with and without pinyin line up.
         fun placeLine(end: Int) {
             var cx = 0

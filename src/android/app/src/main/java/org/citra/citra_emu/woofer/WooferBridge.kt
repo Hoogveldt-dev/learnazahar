@@ -88,7 +88,9 @@ object WooferBridge {
                 hello = message
                 line = null
             }
+
             "line" -> line = message
+
             "clear" -> line = null
         }
         main.post {
@@ -110,40 +112,36 @@ object WooferBridge {
      * @param word one item of the "w" list of a "line" message
      * @param line that "line" message, or null
      */
-    fun saveWord(word: JSONObject, line: JSONObject?): Boolean {
-        return try {
-            val entry = JSONObject()
-            entry.put("v", 1)
-            entry.put("game", gameId)
-            entry.put("s", word.getString("s"))
-            entry.put("p", word.optString("p", ""))
-            entry.put("g", word.optString("g", ""))
-            if (word.has("hsk")) {
-                entry.put("hsk", word.optInt("hsk"))
-            }
-            if (line != null) {
-                entry.put("zh", line.optString("zh", ""))
-                entry.put("en", line.optString("en", ""))
-                entry.put("loc", line.optString("loc", ""))
-            }
-            entry.put("at", now())
-            entry.put("status", "new")
-            appendVocab(entry.toString())
-        } catch (e: JSONException) {
-            false
+    fun saveWord(word: JSONObject, line: JSONObject?): Boolean = try {
+        val entry = JSONObject()
+        entry.put("v", 1)
+        entry.put("game", gameId)
+        entry.put("s", word.getString("s"))
+        entry.put("p", word.optString("p", ""))
+        entry.put("g", word.optString("g", ""))
+        if (word.has("hsk")) {
+            entry.put("hsk", word.optInt("hsk"))
         }
+        if (line != null) {
+            entry.put("zh", line.optString("zh", ""))
+            entry.put("en", line.optString("en", ""))
+            entry.put("loc", line.optString("loc", ""))
+        }
+        entry.put("at", now())
+        entry.put("status", "new")
+        appendVocab(entry.toString())
+    } catch (e: JSONException) {
+        false
     }
 
     /** Changes the status of a saved word (new, learning, known, deleted). */
-    fun setStatus(entry: JSONObject, status: String): Boolean {
-        return try {
-            val copy = JSONObject(entry.toString())
-            copy.put("status", status)
-            copy.put("at", now())
-            appendVocab(copy.toString())
-        } catch (e: JSONException) {
-            false
-        }
+    fun setStatus(entry: JSONObject, status: String): Boolean = try {
+        val copy = JSONObject(entry.toString())
+        copy.put("status", status)
+        copy.put("at", now())
+        appendVocab(copy.toString())
+    } catch (e: JSONException) {
+        false
     }
 
     /**
