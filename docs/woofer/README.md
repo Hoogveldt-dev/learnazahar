@@ -21,6 +21,7 @@ Revisie: 2026-11-03.
 | Woordenlijst `sdmc:/woofer/vocab.jsonl` | `src/core/woofer/vocab.{h,cpp}` |
 | Haakjes in de kernel | `src/core/hle/kernel/svc.cpp`: `Woofer::HandleDebugString` in `OutputDebugString`, type `WOOFER_BRIDGE = 0x574F4F46` in `GetSystemInfo` |
 | Opstarten, stoppen, savestate | `src/core/core.cpp`, `System::Shutdown`: `Woofer::Reset()`, bij het laden van een savestate `Woofer::OnStateLoaded()` |
+| Savestates voor `.3dsx` | `src/core/woofer/homebrew_id.{h,cpp}`; in `System::Load` krijgt een game zonder title-id er een (`System::GetTitleID()`), gebruikt door `getSavestateInfo` (`native.cpp`) en `UpdateSaveStates` (`citra_qt.cpp`) |
 | Tests | `src/tests/core/woofer/bridge.cpp` (eenheid), `game_bridge.cpp` (end-to-end), `game/` (kopie van `port/woofer_bridge.{c,h}` uit PokemonWoofer) |
 | JNI | `src/android/app/src/main/jni/woofer.{h,cpp}`; aangeroepen vanuit `id_cache.cpp` (`JNI_OnLoad`) en `native.cpp` (start en stop van een game) |
 | Android | `org.citra.citra_emu.woofer`: `WooferBridge`, `WooferPanel`, `WooferSpeech`, `WrapLayout`, `WooferVocabActivity`, `WooferEmulationUi` |
@@ -40,6 +41,13 @@ samenvoegen meestal zonder conflicten.
   Via het menu in het spel (lade links) is het helemaal te verbergen.
 - **Pinyin boven de tekens** (knop "Pinyin"), lang drukken op een woord
   bewaart het direct.
+- **Savestates ook voor `.3dsx`:** in Azahar staat het menu "Savestates"
+  alleen in de lade als de game een title-id heeft. Een `.3dsx` (zoals
+  PokemonWoofer) heeft die niet, dus het menu ontbrak. WooferAzahar geeft zo'n
+  game een eigen, vaste id (uit de titel in de SMDH, anders de bestandsnaam;
+  vorm `FF57xxxxxxxxxxxx`), dus de savestates horen bij die game en blijven na
+  een nieuwe build van de 3DSX bruikbaar. De RomFS en de opslag van de game
+  gebruiken de id niet en veranderen dus niet.
 - **Savestates:** na het laden van een savestate verdwijnt de oude zin uit het
   paneel (de game blijft bekend, de zin niet).
 - **Woordenlijst** in Material-stijl: zoeken (ook zonder toontekens, `yinhang`
@@ -145,6 +153,11 @@ omgeving).
 4. Bij een dialoog: tik een woord aan (pinyin, betekenis, HSK, uitspraak),
    "Bewaren" of lang drukken bewaart het in `sdmc/woofer/vocab.jsonl`.
 5. Op het startscherm: tegel "Woofer-woorden" voor de lijst en de Anki-export.
+6. Savestates: open de lade (veeg vanaf de linkerrand of druk op Terug) en
+   kies "Save States", dan "Save State" (vak 1 tot 10) of "Load State". Een
+   snelopslag kan ook met een sneltoets (Instellingen, Sneltoetsen). Een
+   savestate laadt alleen in dezelfde versie van de app waarmee hij gemaakt
+   is; sla na een update dus ook gewoon in het spel op.
 
 ## Azahar bijwerken
 

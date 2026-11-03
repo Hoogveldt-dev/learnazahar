@@ -51,6 +51,7 @@
 #include "core/movie.h"
 #include "core/savestate.h"
 #include "core/woofer/bridge.h"
+#include "core/woofer/homebrew_id.h"
 #ifdef ENABLE_SCRIPTING
 #include "core/rpc/server.h"
 #endif
@@ -155,10 +156,7 @@ System::ResultStatus System::RunLoop(bool tight_loop) {
             status_details = "A pending save state operation has not finished yet";
             return ResultStatus::ErrorSavestate;
         }
-        u64 title_id{};
-        if (app_loader) {
-            app_loader->ReadProgramId(title_id);
-        }
+        // WooferAzahar: the id the savestates were written with (see Load).
         auto info = GetSaveStateInfo(title_id, movie.GetCurrentMovieID(), param);
         if (info.slot == std::numeric_limits<u32>::max()) {
             // Should not happen
@@ -517,6 +515,12 @@ System::ResultStatus System::Load(Frontend::EmuWindow& emu_window, const std::st
     if (app_loader->ReadProgramId(title_id) != Loader::ResultStatus::Success) {
         LOG_ERROR(Core, "Failed to find title id for ROM (Error {})",
                   static_cast<u32>(load_result));
+        // WooferAzahar: a homebrew game (.3dsx) has no title id. Give it a
+        // stable one of its own, so its savestates (and cheats) are its own.
+        std::vector<u8> smdh;
+        app_loader->ReadIcon(smdh);
+        title_id = Woofer::HomebrewTitleId(smdh, filepath);
+        LOG_INFO(Core, "Homebrew title id {:016X}", title_id);
     }
 
     cheat_engine.LoadCheatFile(title_id);

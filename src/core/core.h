@@ -337,6 +337,13 @@ public:
         return status_details;
     }
 
+    /// WooferAzahar: the title id of the running game, the one savestates are
+    /// kept under. For a homebrew game (.3dsx) one of its own
+    /// (Woofer::HomebrewTitleId), as the loader has none.
+    [[nodiscard]] u64 GetTitleID() const {
+        return title_id;
+    }
+
     [[nodiscard]] Loader::AppLoader& GetAppLoader() const {
         return *app_loader;
     }

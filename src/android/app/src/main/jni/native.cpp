@@ -1213,10 +1213,13 @@ jobjectArray Java_org_citra_citra_1emu_NativeLibrary_getSavestateInfo(
         return nullptr;
     }
 
-    u64 title_id;
-    if (system.GetAppLoader().ReadProgramId(title_id) != Loader::ResultStatus::Success) {
+    // WooferAzahar: the id the core keeps savestates under. A homebrew game
+    // (.3dsx) has no title id of its own, the core gives it one, so the
+    // savestate menu is there for it too.
+    if (!system.GetAppLoader().SupportsSaveStates()) {
         return nullptr;
     }
+    const u64 title_id = system.GetTitleID();
 
     const auto savestates = Core::ListSaveStates(title_id, system.Movie().GetCurrentMovieID());
     const jobjectArray array =

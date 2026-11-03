@@ -1789,10 +1789,8 @@ void GMainWindow::UpdateSaveStates() {
     oldest_slot_time = std::numeric_limits<u64>::max();
     newest_slot_time = 0;
 
-    u64 title_id;
-    if (system.GetAppLoader().ReadProgramId(title_id) != Loader::ResultStatus::Success) {
-        return;
-    }
+    // WooferAzahar: the id the core keeps savestates under (also for a .3dsx).
+    const u64 title_id = system.GetTitleID();
     auto savestates = Core::ListSaveStates(title_id, movie.GetCurrentMovieID());
     for (u32 i = 0; i < Core::SaveStateSlotCount; ++i) {
         actions_load_state[i]->setEnabled(false);

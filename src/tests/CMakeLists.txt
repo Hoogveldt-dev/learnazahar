@@ -21,6 +21,7 @@ add_executable(tests
     audio_core/merryhime_3ds_audio/merry_audio/service_fixture.h
     audio_core/merryhime_3ds_audio/audio_test_biquad_filter.cpp
     core/woofer/bridge.cpp
+    core/woofer/homebrew_id.cpp
 )
 
 # Woofer bridge (docs/woofer-bridge/PROTOCOL.md). The end-to-end test uses the game side
@@ -40,8 +41,11 @@ endif()
 # (cmake --build . --target woofer_tests). Used by .github/workflows/woofer.yml.
 add_executable(woofer_tests EXCLUDE_FROM_ALL
     core/woofer/bridge.cpp
+    core/woofer/homebrew_id.cpp
     ${CMAKE_SOURCE_DIR}/src/core/woofer/bridge.cpp
     ${CMAKE_SOURCE_DIR}/src/core/woofer/bridge.h
+    ${CMAKE_SOURCE_DIR}/src/core/woofer/homebrew_id.cpp
+    ${CMAKE_SOURCE_DIR}/src/core/woofer/homebrew_id.h
     ${CMAKE_SOURCE_DIR}/src/core/woofer/vocab.cpp
     ${CMAKE_SOURCE_DIR}/src/core/woofer/vocab.h
 )

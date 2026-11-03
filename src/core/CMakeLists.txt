@@ -498,6 +498,8 @@ add_library(citra_core STATIC EXCLUDE_FROM_ALL
     tracer/recorder.h
     woofer/bridge.cpp
     woofer/bridge.h
+    woofer/homebrew_id.cpp
+    woofer/homebrew_id.h
     woofer/vocab.cpp
     woofer/vocab.h
 )
