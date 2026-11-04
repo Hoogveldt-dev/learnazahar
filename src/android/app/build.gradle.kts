@@ -107,6 +107,20 @@ android {
     }
 
     val keystoreFile = System.getenv("ANDROID_KEYSTORE_FILE")
+    // WooferAzahar: one fixed debug key for every machine of the developer
+    // (src/android/woofer-debug.keystore, created locally and never committed: see
+    // docs/woofer/README.md). Otherwise each build machine signs with its own debug key
+    // and Android refuses the APK as an update ("signature error"). Without the file the
+    // normal per-machine debug key is used.
+    val wooferDebugKey = rootProject.file("woofer-debug.keystore")
+    if (wooferDebugKey.exists()) {
+        signingConfigs.getByName("debug") {
+            storeFile = wooferDebugKey
+            storePassword = "android"
+            keyAlias = "androiddebugkey"
+            keyPassword = "android"
+        }
+    }
     if (keystoreFile != null) {
         signingConfigs {
             create("release") {

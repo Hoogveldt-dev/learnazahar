@@ -61,3 +61,6 @@ fastlane/Preview.html
 fastlane/screenshots
 fastlane/test_output
 fastlane/readme.md
+
+# WooferAzahar: vaste debug-sleutel, lokaal aangemaakt (docs/woofer/README.md)
+woofer-debug.keystore

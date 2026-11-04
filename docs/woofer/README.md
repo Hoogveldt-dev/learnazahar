@@ -121,21 +121,21 @@ tools/woofer/build_apk.sh woofer-azahar-debug.apk   # komt in build/apk/
 - De debug-APK heeft **geoptimaliseerde native code** (`Release`, zonder LTO):
   een Debug-build van de emulator is te traag om te spelen. Kotlin blijft
   debugbaar. `-PnativeDebug` geeft de trage Debug-build terug.
-- Ondertekend met de eigen debug-sleutel van de bouwmachine. Een APK van een
-  andere machine heeft een andere sleutel; Android weigert dan de update en je
-  moet de oude app eerst verwijderen (en verliest daarmee de gebruikersmap als
-  die in de app-map staat). Wil je dat voorkomen, maak dan eenmalig een eigen
-  sleutel en geef hem bij elke bouw mee:
+- Ondertekend met een **vaste debug-sleutel**, als je er een aanmaakt. Zonder
+  eigen sleutel tekent elke machine met zijn eigen debug-sleutel en weigert
+  Android een APK van een andere machine als update ("signature error"); dan
+  moet de oude app eerst weg. Maak eenmalig een sleutel en bewaar hem buiten
+  Git (`src/android/woofer-debug.keystore` staat in `.gitignore`):
 
   ```sh
-  keytool -genkeypair -v -keystore woofer.jks -alias woofer       -keyalg RSA -keysize 4096 -validity 10000
-  export ANDROID_KEYSTORE_FILE=/pad/naar/woofer.jks
-  export ANDROID_KEYSTORE_PASS=...   # ook het wachtwoord van de sleutel zelf
-  export ANDROID_KEY_ALIAS=woofer
+  keytool -genkeypair -keystore src/android/woofer-debug.keystore -storepass android \
+    -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 \
+    -dname "CN=Android Debug,O=Android,C=US"
   ```
 
-  Dan worden zowel de debug- als de release-APK met die sleutel ondertekend
-  (de sleutel zelf hoort niet in de repo).
+  Bestaat dat bestand, dan gebruikt de debug-build het automatisch. Kopieer het
+  naar elke bouwmachine. Met `ANDROID_KEYSTORE_FILE`, `ANDROID_KEYSTORE_PASS`
+  en `ANDROID_KEY_ALIAS` gaat een eigen sleutel voor (ook voor de debug-APK).
 
 Lessen uit de cloudomgeving: Maven Central en de Gradle-pluginportal geven
 daar vaak 429. Een Gradle-init-script in `~/.gradle/init.d/` dat Google's Maven
